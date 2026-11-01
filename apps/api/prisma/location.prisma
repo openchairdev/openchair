@@ -1,0 +1,76 @@
+model Location {
+  id String @id @default(uuid())
+
+  companyId String
+
+  name String
+
+  slug String @unique
+
+  timezone String
+
+  phoneNumber String?
+  email String?
+
+  addressLine1 String
+  addressLine2 String?
+
+  city String
+  state String
+  postalCode String
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  memberships LocationMember[]
+
+  staff Staff[]
+
+  services Service[]
+
+  businessHours BusinessHour[]
+
+  businessClosures BusinessClosure[]
+
+  appointments Appointment[]
+
+  landingPage LandingPage?
+}
+
+model BusinessHour {
+  id String @id @default(uuid())
+
+  locationId String
+
+  dayOfWeek Int
+
+  openTime String
+
+  closeTime String
+
+  isClosed Boolean @default(false)
+
+  location Location @relation(fields: [locationId], references: [id])
+
+  @@unique([locationId, dayOfWeek])
+}
+
+model BusinessClosure {
+  id String @id @default(uuid())
+
+  locationId String
+
+  title String
+
+  startDateTime DateTime
+
+  endDateTime DateTime
+
+  createdAt DateTime @default(now())
+
+  location Location @relation(fields: [locationId], references: [id])
+}

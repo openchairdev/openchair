@@ -1,0 +1,74 @@
+model Staff {
+  id String @id @default(uuid())
+
+  userId String?
+
+  locationId String
+
+  displayName String
+
+  title String?
+
+  bio String?
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id])
+
+  location Location @relation(fields: [locationId], references: [id])
+
+  serviceAssignments StaffService[]
+
+  schedules StaffSchedule[]
+
+  timeOffs StaffTimeOff[]
+
+  appointments Appointment[]
+}
+
+model StaffService {
+  staffId String
+
+  serviceId String
+
+  staff Staff @relation(fields: [staffId], references: [id])
+
+  service Service @relation(fields: [serviceId], references: [id])
+
+  @@id([staffId, serviceId])
+}
+
+model StaffSchedule {
+  id String @id @default(uuid())
+
+  staffId String
+
+  dayOfWeek Int
+
+  startTime String
+
+  endTime String
+
+  staff Staff @relation(fields: [staffId], references: [id])
+
+  @@unique([staffId, dayOfWeek])
+}
+
+model StaffTimeOff {
+  id String @id @default(uuid())
+
+  staffId String
+
+  startDateTime DateTime
+
+  endDateTime DateTime
+
+  reason String?
+
+  createdAt DateTime @default(now())
+
+  staff Staff @relation(fields: [staffId], references: [id])
+}
