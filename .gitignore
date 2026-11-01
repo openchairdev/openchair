@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+coverage/
+.next/
+.turbo/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Generated Prisma client
+.prisma/
+apps/api/src/generated/prisma/
+
+# Editors
+.idea/
+.vscode/
+
+# Operating system
+.DS_Store
+
+# Logs
+*.log
